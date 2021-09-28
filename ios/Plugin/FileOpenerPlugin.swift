@@ -1,5 +1,6 @@
 import Foundation
 import Capacitor
+import QuickLook
 
 /**
  * Please read the Capacitor iOS Plugin Development Guide
@@ -7,12 +8,42 @@ import Capacitor
  */
 @objc(FileOpenerPlugin)
 public class FileOpenerPlugin: CAPPlugin {
-    private let implementation = FileOpener()
+    lazy var fileURL = NSURL()
+    
+    @objc func open(_ call: CAPPluginCall) {
+        let path = call.getString("path") ?? ""
+        //let mime = call.getString("mime") ?? ""
+        
+        self.fileURL = NSURL(string:path)!;
+        
+        if !FileManager.default.fileExists(atPath: fileURL.path!) {
+            call.reject("File not found")
+            
+            return;
+        }
+        
+        DispatchQueue.main.async(execute: {
+            let previewController = QLPreviewController();
+            previewController.dataSource = self;
+            previewController.delegate = self;
+            
+            self.bridge!.viewController!.present(previewController, animated: true, completion: nil);
+            
+            if self.bridge!.viewController!.isViewLoaded {
+                call.resolve()
+            } else{
+                call.reject("Failed")
+            }
+        });
+    }
+}
 
-    @objc func echo(_ call: CAPPluginCall) {
-        let value = call.getString("value") ?? ""
-        call.resolve([
-            "value": implementation.echo(value)
-        ])
+extension FileOpenerPlugin: QLPreviewControllerDataSource, QLPreviewControllerDelegate {
+    public func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
+        return 1
+    }
+
+    public func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
+        return self.fileURL as QLPreviewItem
     }
 }
