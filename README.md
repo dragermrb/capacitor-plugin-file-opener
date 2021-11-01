@@ -5,7 +5,7 @@ Capacitor plugin to open files
 ## Install
 
 ```bash
-npm install capacitor-plugin-file-opener
+npm install @whiteguru/capacitor-plugin-file-opener
 npx cap sync
 ```
 
