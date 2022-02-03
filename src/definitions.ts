@@ -7,8 +7,4 @@ export interface FileOpenerOptions {
    * Path to file
    */
   path: string;
-  /**
-   * Mime to select
-   */
-  mime: string;
 }

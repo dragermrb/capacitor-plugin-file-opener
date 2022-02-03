@@ -41,9 +41,8 @@ open(options: FileOpenerOptions) => any
 
 #### FileOpenerOptions
 
-| Prop       | Type                | Description    |
-| ---------- | ------------------- | -------------- |
-| **`path`** | <code>string</code> | Path to file   |
-| **`mime`** | <code>string</code> | Mime to select |
+| Prop       | Type                | Description  |
+| ---------- | ------------------- | ------------ |
+| **`path`** | <code>string</code> | Path to file |
 
 </docgen-api>

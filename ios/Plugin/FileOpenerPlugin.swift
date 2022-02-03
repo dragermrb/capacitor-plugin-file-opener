@@ -9,26 +9,25 @@ import QuickLook
 @objc(FileOpenerPlugin)
 public class FileOpenerPlugin: CAPPlugin {
     lazy var fileURL = NSURL()
-    
+
     @objc func open(_ call: CAPPluginCall) {
         let path = call.getString("path") ?? ""
-        //let mime = call.getString("mime") ?? ""
-        
+
         self.fileURL = NSURL(string:path)!;
-        
+
         if !FileManager.default.fileExists(atPath: fileURL.path!) {
             call.reject("File not found")
-            
+
             return;
         }
-        
+
         DispatchQueue.main.async(execute: {
             let previewController = QLPreviewController();
             previewController.dataSource = self;
             previewController.delegate = self;
-            
+
             self.bridge!.viewController!.present(previewController, animated: true, completion: nil);
-            
+
             if self.bridge!.viewController!.isViewLoaded {
                 call.resolve()
             } else{

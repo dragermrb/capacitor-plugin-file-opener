@@ -2,7 +2,6 @@ package com.whiteguru.capacitor.plugin.fileopener;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.webkit.MimeTypeMap;
 
 import androidx.activity.result.ActivityResult;
 import androidx.core.content.FileProvider;
@@ -21,7 +20,6 @@ public class FileOpenerPlugin extends Plugin {
     @PluginMethod
     public void open(PluginCall call) {
         String path = call.getString("path", "");
-        String mime = call.getString("mime", "");
 
         File file;
         Uri u = Uri.parse(path);
@@ -31,18 +29,10 @@ public class FileOpenerPlugin extends Plugin {
             file = new File(path);
         }
 
-        Uri fileUri = FileProvider.getUriForFile(
-                getActivity(),
-                getContext().getPackageName() + ".fileprovider",
-                file
-        );
-
-        if (mime == null || mime.trim().equals("")) {
-            mime = getMimeType(file.getName());
-        }
+        Uri fileUri = FileProvider.getUriForFile(getActivity(), getContext().getPackageName() + ".fileprovider", file);
 
         Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
-        openFileIntent.setDataAndType(fileUri, mime);
+        openFileIntent.setDataAndNormalize(fileUri);
         openFileIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         if (openFileIntent.resolveActivity(getContext().getPackageManager()) != null) {
@@ -59,19 +49,5 @@ public class FileOpenerPlugin extends Plugin {
         }
 
         call.resolve();
-    }
-
-    private String getMimeType(String url) {
-        String mimeType = "*/*";
-        int extensionIndex = url.lastIndexOf('.');
-
-        if (extensionIndex > 0) {
-            String extMimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(url.substring(extensionIndex + 1));
-            if (extMimeType != null) {
-                mimeType = extMimeType;
-            }
-        }
-
-        return mimeType;
     }
 }
