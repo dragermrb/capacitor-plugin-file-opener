@@ -1,5 +1,6 @@
 package com.whiteguru.capacitor.plugin.fileopener;
 
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -21,15 +22,23 @@ public class FileOpenerPlugin extends Plugin {
     public void open(PluginCall call) {
         String path = call.getString("path", "");
 
-        File file;
         Uri u = Uri.parse(path);
-        if (u.getScheme() == null || u.getScheme().equals("file")) {
-            file = new File(u.getPath());
+        Uri fileUri;
+        if (u.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+            fileUri = u;
+        } else if (u.getScheme() == null || u.getScheme().equals(ContentResolver.SCHEME_FILE)) {
+            fileUri = FileProvider.getUriForFile(
+                getActivity(),
+                getContext().getPackageName() + ".fileprovider",
+                new File(u.getPath())
+            );
         } else {
-            file = new File(path);
+            fileUri = FileProvider.getUriForFile(
+                getActivity(),
+                getContext().getPackageName() + ".fileprovider",
+                new File(path)
+            );
         }
-
-        Uri fileUri = FileProvider.getUriForFile(getActivity(), getContext().getPackageName() + ".fileprovider", file);
 
         Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
         openFileIntent.setDataAndNormalize(fileUri);
