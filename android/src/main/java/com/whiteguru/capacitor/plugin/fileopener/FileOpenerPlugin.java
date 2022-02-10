@@ -24,20 +24,12 @@ public class FileOpenerPlugin extends Plugin {
 
         Uri u = Uri.parse(path);
         Uri fileUri;
-        if (u.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
+        if (u.getScheme() != null && u.getScheme().equals(ContentResolver.SCHEME_CONTENT)) {
             fileUri = u;
         } else if (u.getScheme() == null || u.getScheme().equals(ContentResolver.SCHEME_FILE)) {
-            fileUri = FileProvider.getUriForFile(
-                getActivity(),
-                getContext().getPackageName() + ".fileprovider",
-                new File(u.getPath())
-            );
+            fileUri = FileProvider.getUriForFile(getActivity(), getContext().getPackageName() + ".fileprovider", new File(u.getPath()));
         } else {
-            fileUri = FileProvider.getUriForFile(
-                getActivity(),
-                getContext().getPackageName() + ".fileprovider",
-                new File(path)
-            );
+            fileUri = FileProvider.getUriForFile(getActivity(), getContext().getPackageName() + ".fileprovider", new File(path));
         }
 
         Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
