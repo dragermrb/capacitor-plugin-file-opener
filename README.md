@@ -41,8 +41,9 @@ open(options: FileOpenerOptions) => any
 
 #### FileOpenerOptions
 
-| Prop       | Type                | Description  |
-| ---------- | ------------------- | ------------ |
-| **`path`** | <code>string</code> | Path to file |
+| Prop       | Type                | Description                             |
+| ---------- | ------------------- | --------------------------------------- |
+| **`path`** | <code>string</code> | Path to file                            |
+| **`mime`** | <code>string</code> | Mime to select (optional, android only) |
 
 </docgen-api>

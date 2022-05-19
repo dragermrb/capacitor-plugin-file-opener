@@ -12,6 +12,7 @@ public class FileOpenerPlugin: CAPPlugin {
 
     @objc func open(_ call: CAPPluginCall) {
         let path = call.getString("path") ?? ""
+        //let mime = call.getString("mime") ?? "" // Not used on IOS
 
         self.fileURL = NSURL(string:path)!;
 

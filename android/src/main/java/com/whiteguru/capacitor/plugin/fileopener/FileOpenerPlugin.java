@@ -21,6 +21,7 @@ public class FileOpenerPlugin extends Plugin {
     @PluginMethod
     public void open(PluginCall call) {
         String path = call.getString("path", "");
+        String mime = call.getString("mime", "");
 
         Uri u = Uri.parse(path);
         Uri fileUri;
@@ -33,7 +34,13 @@ public class FileOpenerPlugin extends Plugin {
         }
 
         Intent openFileIntent = new Intent(Intent.ACTION_VIEW);
+
         openFileIntent.setDataAndNormalize(fileUri);
+
+        if (mime != null && !mime.trim().equals("")) {
+            openFileIntent.setTypeAndNormalize(mime);
+        }
+
         openFileIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         if (openFileIntent.resolveActivity(getContext().getPackageManager()) != null) {
