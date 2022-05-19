@@ -9,6 +9,25 @@ npm install @whiteguru/capacitor-plugin-file-opener
 npx cap sync
 ```
 
+### Setup Android
+
+Add or update next lines inside `<manifest>` tag on your `AndroidManifest.xml`
+
+```
+<manifest>
+
+  <!-- Rest of manifest -->
+
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <!-- If you don't know the MIME type in advance, set "mimeType" to "*/*". -->
+      <data android:mimeType="application/pdf" />
+    </intent>
+  </queries>
+</manifest>
+```
+
 ## API
 
 <docgen-index>
