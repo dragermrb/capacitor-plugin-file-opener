@@ -11,5 +11,5 @@ export interface FileOpenerOptions {
   /**
    * Mime to select (optional, android only)
    */
-  mime: string;
+  mime?: string;
 }
