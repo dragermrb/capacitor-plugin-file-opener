@@ -9,6 +9,13 @@ npm install @whiteguru/capacitor-plugin-file-opener
 npx cap sync
 ```
 
+### or for Capacitor 3.x
+
+```bash
+npm install @whiteguru/capacitor-plugin-file-opener@1.1.4
+npx cap sync
+```
+
 ### Setup Android
 
 Add or update next lines inside `<manifest>` tag on your `AndroidManifest.xml`
@@ -43,14 +50,12 @@ Add or update next lines inside `<manifest>` tag on your `AndroidManifest.xml`
 ### open(...)
 
 ```typescript
-open(options: FileOpenerOptions) => any
+open(options: FileOpenerOptions) => Promise<void>
 ```
 
 | Param         | Type                                                            |
 | ------------- | --------------------------------------------------------------- |
 | **`options`** | <code><a href="#fileopeneroptions">FileOpenerOptions</a></code> |
-
-**Returns:** <code>any</code>
 
 --------------------
 
