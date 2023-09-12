@@ -9,6 +9,13 @@ npm install @whiteguru/capacitor-plugin-file-opener
 npx cap sync
 ```
 
+### or for Capacitor 4.x
+
+```bash
+npm install @whiteguru/capacitor-plugin-file-opener@^4.0.0
+npx cap sync
+```
+
 ### or for Capacitor 3.x
 
 ```bash
