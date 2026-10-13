@@ -7,7 +7,12 @@ import QuickLook
  * here: https://capacitorjs.com/docs/plugins/ios
  */
 @objc(FileOpenerPlugin)
-public class FileOpenerPlugin: CAPPlugin {
+public class FileOpenerPlugin: CAPPlugin, CAPBridgedPlugin {
+    public let identifier = "FileOpenerPlugin"
+    public let jsName = "FileOpener"
+    public let pluginMethods: [CAPPluginMethod] = [
+        CAPPluginMethod(name: "open", returnType: CAPPluginReturnPromise),
+    ]
     lazy var fileURL = NSURL()
 
     @objc func open(_ call: CAPPluginCall) {
